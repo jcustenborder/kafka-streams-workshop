@@ -1,0 +1,22 @@
+{
+  "name": "SpendingCategoryKey",
+  "namespace": "io.confluent.examples.kafka.streams",
+  "type": "record",
+  "fields": [
+    {
+      "name": "accountID",
+      "type": "long"
+    },
+    {
+      "name": "categoryCode",
+      "type": "int"
+    },
+    {
+      "name": "period",
+      "type": {
+        "type": "int",
+        "logicalType": "date"
+      }
+    }
+  ]
+}

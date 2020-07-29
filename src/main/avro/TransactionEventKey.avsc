@@ -1,0 +1,11 @@
+{
+  "name": "TransactionEventKey",
+  "namespace": "io.confluent.examples.kafka.streams",
+  "type": "record",
+  "fields": [
+    {
+      "name": "accountID",
+      "type": "long"
+    }
+  ]
+}
