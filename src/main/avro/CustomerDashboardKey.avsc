@@ -1,0 +1,11 @@
+{
+  "name": "CustomerDashboardKey",
+  "namespace": "io.confluent.examples.kafka.streams",
+  "type": "record",
+  "fields": [
+    {
+      "name": "customerID",
+      "type": "long"
+    }
+  ]
+}

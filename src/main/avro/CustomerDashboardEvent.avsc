@@ -1,0 +1,27 @@
+{
+  "name": "CustomerDashboardEvent",
+  "namespace": "io.confluent.examples.kafka.streams",
+  "type": "record",
+  "fields": [
+    {
+      "name": "customerID",
+      "type": "long"
+    },
+    {
+      "name": "content",
+      "type": {
+        "type": "map",
+        "values": "io.confluent.examples.kafka.streams.CustomerDashboardContentUpdateEvent",
+        "default": {}
+      }
+    },
+    {
+      "name": "updatedDate",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Timestamp of the last update."
+    }
+  ]
+}

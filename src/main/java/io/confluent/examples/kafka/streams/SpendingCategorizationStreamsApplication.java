@@ -12,17 +12,17 @@ import java.time.LocalDate;
 
 import static java.time.temporal.TemporalAdjusters.firstDayOfMonth;
 
-public class CategorizeSpending extends StreamsRunner {
+public class SpendingCategorizationStreamsApplication extends StreamsRunner {
   @Override
   public Topology buildTopology() {
     /*
     Serdes are how we serialize and deserialize data that is stored in Kafka. Here we are defining
     a serde for the key and value that we are going to be using.
      */
-    Serde<TransactionEventKey> transactionEventKeySerde = serde(TransactionEventKey.class);
-    Serde<TransactionEvent> transactionEventSerde = serde(TransactionEvent.class);
-    Serde<SpendingCategoryKey> spendingCategoryKeySerde = serde(SpendingCategoryKey.class);
-    Serde<SpendingCategory> spendingCategorySerde = serde(SpendingCategory.class);
+    Serde<TransactionEventKey> transactionEventKeySerde = serde(TransactionEventKey.class, true);
+    Serde<TransactionEvent> transactionEventSerde = serde(TransactionEvent.class, false);
+    Serde<SpendingCategoryKey> spendingCategoryKeySerde = serde(SpendingCategoryKey.class, true);
+    Serde<SpendingCategory> spendingCategorySerde = serde(SpendingCategory.class, false);
 
 
     StreamsBuilder streamsBuilder = new StreamsBuilder();
@@ -81,6 +81,6 @@ public class CategorizeSpending extends StreamsRunner {
   }
 
   public static void main(String... args) throws Exception {
-    StreamsRunner.run(new CategorizeSpending());
+    StreamsRunner.run(new SpendingCategorizationStreamsApplication());
   }
 }

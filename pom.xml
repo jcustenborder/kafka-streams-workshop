@@ -134,6 +134,9 @@
                             <stringType>String</stringType>
                             <fieldVisibility>private</fieldVisibility>
                             <enableDecimalLogicalType>true</enableDecimalLogicalType>
+                            <imports>
+                                <import>${project.basedir}/src/main/avro/CustomerDashboardContentUpdateEvent.avsc</import>
+                            </imports>
                             <sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
                             <outputDirectory>${project.basedir}/target/generated-sources/avro</outputDirectory>
                         </configuration>

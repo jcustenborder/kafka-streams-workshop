@@ -1,0 +1,11 @@
+{
+  "name": "MerchantCategoryKey",
+  "namespace": "io.confluent.examples.kafka.streams",
+  "type": "record",
+  "fields": [
+    {
+      "name": "categoryCode",
+      "type": "int"
+    }
+  ]
+}
