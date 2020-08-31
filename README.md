@@ -1,6 +1,11 @@
 # Introduction
 
-This repository contains example applications built using Kafka Streams for Financial Services use cases.
+[Kafka Streams](http://kafka.apache.org/documentation/streams/) is a streaming engine that is built
+alongside [Apache Kafka](http://kafka.apache.org/). It provides realtime access to data that is stored
+on a Kafka Cluster. This repository contains example applications built using Kafka Streams for 
+Financial Services use cases.
+
+Some additional examples are available [here](https://github.com/confluentinc/kafka-streams-examples)
 
 # Use Cases
 
