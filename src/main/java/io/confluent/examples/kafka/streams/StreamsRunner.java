@@ -1,7 +1,12 @@
 package io.confluent.examples.kafka.streams;
 
+import io.confluent.kafka.serializers.KafkaAvroSerializer;
+import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
 import io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde;
 import org.apache.avro.specific.SpecificRecord;
+import org.apache.kafka.clients.CommonClientConfigs;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.config.SaslConfigs;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsConfig;
@@ -41,7 +46,13 @@ public abstract class StreamsRunner {
 
     Properties properties = new Properties();
     properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
-    properties.put("schema.registry.url", "http://schema-registry:8081");
+    properties.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
+    properties.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
+    properties.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"confluent\" password=\"password\"");
+    properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
+    properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
+    properties.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "lz4");
+    properties.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://schemaregistry-0-internal:8081");
 
     String applicationName = runner.getClass().getName();
     //Kafka Streams requires local storage. This is replicated to the change log topics on the kafka brokers
@@ -53,5 +64,7 @@ public abstract class StreamsRunner {
 
     Topology topology = runner.buildTopology();
     KafkaStreams kafkaStreams = new KafkaStreams(topology, properties);
+
+    kafkaStreams.start();
   }
 }
