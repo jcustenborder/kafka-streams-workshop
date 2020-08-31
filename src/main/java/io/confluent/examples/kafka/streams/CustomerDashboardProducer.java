@@ -17,8 +17,8 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SpendingCategoryProducer {
-  private static final Logger log = LoggerFactory.getLogger(SpendingCategoryProducer.class);
+public class CustomerDashboardProducer {
+  private static final Logger log = LoggerFactory.getLogger(CustomerDashboardProducer.class);
 
   static String readPattern(Console console, String message, Pattern pattern) {
     while (true) {
