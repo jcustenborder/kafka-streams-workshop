@@ -42,6 +42,7 @@ public class CustomerDashboardStreamsApplication extends StreamsRunner {
                 () -> CustomerDashboardEvent.newBuilder()
                     .setCustomerID(0)
                     .setUpdatedDate(Instant.ofEpochMilli(0))
+                    .setContent(null)
                     .build(),
                 (customerDashboardKey, dashboardUpdate, existingDashboard) -> {
                   /*
@@ -49,7 +50,10 @@ public class CustomerDashboardStreamsApplication extends StreamsRunner {
                   existing map containing the previous updates and overlay the new dashboard update on top of it. In this case we are writing
                   over the existing values per division.
                   */
-                  Map<String, CustomerDashboardContentUpdateEvent> allExistingContent = new LinkedHashMap<>(existingDashboard.getContent());
+                  Map<String, CustomerDashboardContentUpdateEvent> allExistingContent = new LinkedHashMap<>();
+                  if (null != existingDashboard.getContent()) {
+                    allExistingContent.putAll(existingDashboard.getContent());
+                  }
                   allExistingContent.put(dashboardUpdate.getDivision(), dashboardUpdate);
                   return CustomerDashboardEvent.newBuilder(existingDashboard)
                       .setCustomerID(customerDashboardKey.getCustomerID())
