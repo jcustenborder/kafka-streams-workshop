@@ -42,7 +42,7 @@ public class CustomerDashboardStreamsApplication extends StreamsRunner {
                 () -> CustomerDashboardEvent.newBuilder()
                     .setCustomerID(0)
                     .setUpdatedDate(Instant.ofEpochMilli(0))
-                    .setContent(null)
+                    .setContent(new LinkedHashMap<>())
                     .build(),
                 (customerDashboardKey, dashboardUpdate, existingDashboard) -> {
                   /*
