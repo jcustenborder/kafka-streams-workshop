@@ -4,6 +4,7 @@ import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Materialized;
@@ -36,7 +37,9 @@ public class CustomerDashboardStreamsApplication extends StreamsRunner {
 
     KTable<CustomerDashboardKey, CustomerDashboardEvent> dashboardKStream =
         // The data is already keyed by the customer ID so we will just group by the existing key.
-        dashboardUpdateStreams.groupByKey()
+        dashboardUpdateStreams.groupByKey(
+            Grouped.with(customerDashboardKeySerde, customerDashboardUpdateSerde)
+        )
             .aggregate(
                 // Create an initial object for the aggregation. This is our initial value.
                 () -> CustomerDashboardEvent.newBuilder()
