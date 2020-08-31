@@ -8,6 +8,7 @@ import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Materialized;
+import org.apache.kafka.streams.kstream.Produced;
 
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -35,7 +36,7 @@ public class CustomerDashboardStreamsApplication extends StreamsRunner {
         Consumed.with(customerDashboardKeySerde, customerDashboardUpdateSerde)
     );
 
-    KTable<CustomerDashboardKey, CustomerDashboardEvent> dashboardKStream =
+    KTable<CustomerDashboardKey, CustomerDashboardEvent> dashboardAggregateTable =
         // The data is already keyed by the customer ID so we will just group by the existing key.
         dashboardUpdateStreams.groupByKey(
             Grouped.with(customerDashboardKeySerde, customerDashboardUpdateSerde)
@@ -69,6 +70,7 @@ public class CustomerDashboardStreamsApplication extends StreamsRunner {
                     customerDashboardSerde
                 )
             );
+    dashboardAggregateTable.toStream().to("dashboard", Produced.with(customerDashboardKeySerde, customerDashboardSerde));
 
 
     return builder.build();
