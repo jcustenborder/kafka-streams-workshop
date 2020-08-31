@@ -4,7 +4,9 @@ import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.kstream.Produced;
 
 import java.math.BigDecimal;
@@ -34,19 +36,22 @@ public class SpendingCategorizationStreamsApplication extends StreamsRunner {
     KStream<AccountKey, TransactionEvent> accountTransactionStream = streamsBuilder
         .stream("transactions", Consumed.with(transactionEventKeySerde, transactionEventSerde));
 
-    KStream<SpendingCategoryKey, SpendingCategory> spendingCategoryStream = accountTransactionStream.groupBy((transactionEventKey, transactionEvent) -> {
+    KStream<SpendingCategoryKey, SpendingCategory> spendingCategoryStream = accountTransactionStream.groupBy(
+        (transactionEventKey, transactionEvent) -> {
       /*
       The transaction dates are spread across an entire month. We need to adjust each of the dates
       so that we can group by the start of the period and the account id, and the mccCode (Merchant category code).
       We're going to take the date of the transaction and move the day to the 1st day of the month.
        */
-      LocalDate adjustedDate = transactionEvent.getTransactionDate().with(firstDayOfMonth());
-      return SpendingCategoryKey.newBuilder()
-          .setAccountID(transactionEvent.getAccountID())
-          .setCategoryCode(transactionEvent.getMccCode())
-          .setPeriod(adjustedDate)
-          .build();
-    }).aggregate(
+          LocalDate adjustedDate = transactionEvent.getTransactionDate().with(firstDayOfMonth());
+          return SpendingCategoryKey.newBuilder()
+              .setAccountID(transactionEvent.getAccountID())
+              .setCategoryCode(transactionEvent.getMccCode())
+              .setPeriod(adjustedDate)
+              .build();
+        },
+        Grouped.with(spendingCategoryKeySerde, transactionEventSerde)
+    ).aggregate(
         /*
         This is an initializer for the initial value. For this case we are just going to use a
         blank object since we're going to use the values from the key later.
@@ -69,7 +74,8 @@ public class SpendingCategorizationStreamsApplication extends StreamsRunner {
               .setCategoryCode(spendingCategoryKey.getCategoryCode())
               .setAmount(amount)
               .build();
-        }
+        },
+        Materialized.with(spendingCategoryKeySerde, spendingCategorySerde)
     ).toStream();
     /*
     We have now taken our incoming TransactionEvent(s) and grouped them by the period (ex 12/01/2019), account id,
