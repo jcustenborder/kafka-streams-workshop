@@ -62,7 +62,7 @@ public abstract class StreamsRunner {
 
     Topology topology = runner.buildTopology();
     KafkaStreams kafkaStreams = new KafkaStreams(topology, properties);
-
+    Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close));
     kafkaStreams.start();
   }
 }
