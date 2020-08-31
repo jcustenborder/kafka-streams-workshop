@@ -21,7 +21,6 @@ public class CustomerDashboardStreamsApplication extends StreamsRunner {
     Serde<CustomerDashboardContentUpdateEvent> customerDashboardUpdateSerde = serde(CustomerDashboardContentUpdateEvent.class, false);
     Serde<CustomerDashboardEvent> customerDashboardSerde = serde(CustomerDashboardEvent.class, true);
 
-
     /*
     Data is written to the topic keyed by the customer id. Each update contains the content for the update
     as well as the division that owns the content. In this example we are using a single input topic

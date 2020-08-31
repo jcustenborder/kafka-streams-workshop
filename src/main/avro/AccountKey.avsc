@@ -1,0 +1,12 @@
+{
+  "name": "AccountKey",
+  "namespace": "io.confluent.examples.kafka.streams",
+  "type": "record",
+  "fields": [
+    {
+      "name": "accountID",
+      "type": "long",
+      "doc": "The id for this account"
+    }
+  ]
+}

@@ -19,11 +19,10 @@ public class SpendingCategorizationStreamsApplication extends StreamsRunner {
     Serdes are how we serialize and deserialize data that is stored in Kafka. Here we are defining
     a serde for the key and value that we are going to be using.
      */
-    Serde<TransactionEventKey> transactionEventKeySerde = serde(TransactionEventKey.class, true);
+    Serde<AccountKey> transactionEventKeySerde = serde(AccountKey.class, true);
     Serde<TransactionEvent> transactionEventSerde = serde(TransactionEvent.class, false);
     Serde<SpendingCategoryKey> spendingCategoryKeySerde = serde(SpendingCategoryKey.class, true);
     Serde<SpendingCategory> spendingCategorySerde = serde(SpendingCategory.class, false);
-
 
     StreamsBuilder streamsBuilder = new StreamsBuilder();
 
@@ -32,7 +31,7 @@ public class SpendingCategorizationStreamsApplication extends StreamsRunner {
     Consumed.with is specifying how we should read the data in Kafka. Here we are saying that
     the key of the message is TransactionEventKey and the value is TransactionEvent.
      */
-    KStream<TransactionEventKey, TransactionEvent> accountTransactionStream = streamsBuilder
+    KStream<AccountKey, TransactionEvent> accountTransactionStream = streamsBuilder
         .stream("transactions", Consumed.with(transactionEventKeySerde, transactionEventSerde));
 
     KStream<SpendingCategoryKey, SpendingCategory> spendingCategoryStream = accountTransactionStream.groupBy((transactionEventKey, transactionEvent) -> {
