@@ -48,7 +48,7 @@ public abstract class StreamsRunner {
     properties.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
     properties.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
     properties.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
-    properties.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"confluent\" password=\"password\"");
+    properties.put(SaslConfigs.SASL_JAAS_CONFIG, "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"confluent\" password=\"password\";");
     properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
     properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
     properties.put(ProducerConfig.COMPRESSION_TYPE_CONFIG, "lz4");
