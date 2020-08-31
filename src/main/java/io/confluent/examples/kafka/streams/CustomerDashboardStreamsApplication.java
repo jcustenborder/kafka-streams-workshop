@@ -20,7 +20,7 @@ public class CustomerDashboardStreamsApplication extends StreamsRunner {
     StreamsBuilder builder = new StreamsBuilder();
     Serde<CustomerDashboardKey> customerDashboardKeySerde = serde(CustomerDashboardKey.class, true);
     Serde<CustomerDashboardContentUpdateEvent> customerDashboardUpdateSerde = serde(CustomerDashboardContentUpdateEvent.class, false);
-    Serde<CustomerDashboardEvent> customerDashboardSerde = serde(CustomerDashboardEvent.class, true);
+    Serde<CustomerDashboardEvent> customerDashboardSerde = serde(CustomerDashboardEvent.class, false);
 
     /*
     Data is written to the topic keyed by the customer id. Each update contains the content for the update
