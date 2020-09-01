@@ -7,7 +7,28 @@ Financial Services use cases.
 
 Some additional examples are available [here](https://github.com/confluentinc/kafka-streams-examples)
 
-# Use Cases
+## Compiling the application
+
+The source code for the workshop is already downloaded to your cloud IDE.
+
+```bash
+cd kafka-streams-workshop
+mvn clean package
+```
+
+## Use Cases
+
+## Spending by category
+
+This application is designed to aggregate transactions for a time period. In this case we are looking
+to build a [Mint](https://mint.com) style interface that aggregates transactions for an account by 
+category.
+
+
+```bash
+run-categorization
+```
+
 
 ## Customer Dashboard
 
@@ -16,13 +37,12 @@ services that are owned by different teams. This leads to a poor experience beca
 waiting on multiple service calls to return data before it renders the page. 
 With this use case we will focus on updating the data that feeds the dashboard as the data changes. 
 
-## Spending by category
+```bash
+run-producer 
+```
 
-With this use case we will build a user dashboard similar to Mint where the data is categorized based on spending. 
-The incoming transactions will be aggregated based on the account and category of the transaction. 
+```bash
+run-dashboard
+```
 
-## Flagging transactions by category
 
-Many companies issue corporate cards for spending on "business" expenses. Certain categories of expenses 
-are not allowed to be placed on a corporate card. This example will allow the user to specify categories 
-that are prohibited, and alert on spending in these categories.
