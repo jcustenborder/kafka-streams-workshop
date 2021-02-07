@@ -1,0 +1,39 @@
+{
+  "name": "TransactionEvent",
+  "namespace": "io.confluent.examples.kafka.streams",
+  "type": "record",
+  "fields": [
+    {
+      "name": "accountID",
+      "type": "long",
+      "doc": "The account id for the transaction."
+    },
+    {
+      "name": "mccCode",
+      "type": "int",
+      "doc": "The MCC category code for the transaction."
+    },
+    {
+      "name": "amount",
+      "type": {
+        "type": "bytes",
+        "logicalType": "decimal",
+        "precision": 2
+      },
+      "doc": "The amount for the transaction."
+    },
+    {
+      "name": "description",
+      "type": "string",
+      "doc": "Description of the transaction"
+    },
+    {
+      "name": "transactionDate",
+      "type": {
+        "type": "int",
+        "logicalType": "date"
+      },
+      "doc": "Date when the transaction occurred."
+    }
+  ]
+}
